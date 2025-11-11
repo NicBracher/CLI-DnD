@@ -2,9 +2,14 @@
 This is a dnd program that will run a CLI dnd game. This program will act as the main body of the game
 
 """
+################################# - IMPORTS - #################################
+
+
+################################# - CONSTANTS - #################################
 
 PLAYER_DATA_FILE = "data/player_data.csv"
-LINE_SEPARATOR = "===================================="
+MENU_LINE_SEPARATOR = "===================================="
+SUBMENU_LINE_SEPARATOR = "------------------------------------"
 START_MENU = f"""
 ====================================
    WELCOME TO DND GAME
@@ -28,6 +33,10 @@ SMALL_INDENT = "  "
 MEDIUM_INDENT = "    "
 LARGE_INDENT = "      "
 
+
+################################# - MAIN - #################################
+
+
 def main():
     print(START_MENU)
     # fmt: off
@@ -42,7 +51,7 @@ def main():
         # Load existing character
         elif start_menu_choice == 2:
             available_player_characters = load_data(PLAYER_DATA_FILE)
-            print(f"\n{LINE_SEPARATOR}\n  Available characters: \n")
+            print(f"\n{MENU_LINE_SEPARATOR}\n  Available characters: \n")
 
             display_players(available_player_characters)
 
@@ -64,14 +73,13 @@ def main():
                 # Delete character
                 elif character_menu_choice == 2:
                     print("Deleting character...")
-                    
 
                 # Display character info
                 elif character_menu_choice == 3:
                     # fmt: off
-                    print(f"Select character to display info\n\n{LINE_SEPARATOR}\n  Available characters: \n")
+                    print(f"Select character to display info\n\n{MENU_LINE_SEPARATOR}\n  Available characters: \n")
                     display_players(available_player_characters)
-                    character_selection = get_valid_integer(f"\n{LINE_SEPARATOR}\nEnter the player number to select their character: ",1,len(available_player_characters), f"Invalid choice. Input number that corresponds to a player.\n{LINE_SEPARATOR}")
+                    character_selection = get_valid_integer(f"\n{MENU_LINE_SEPARATOR}\n\nEnter the player number to select their character: ",1,len(available_player_characters), f"Invalid choice. Input number that corresponds to a player.\n{MENU_LINE_SEPARATOR}")
                     selected_player = list(available_player_characters.keys())[character_selection - 1]
                     display_character_info(available_player_characters[selected_player])
                     # fmt: on
@@ -83,7 +91,6 @@ def main():
                 character_menu_choice = get_valid_integer("Enter your choice (1-4): ", 1, 4)
                 # fmt: on
             print("Exiting character menu.")
-        
 
         # Load character logic here
 
@@ -106,9 +113,17 @@ def get_valid_integer(prompt, min=None, max=None, error_message=""):
         try:
             user_input = int(input(prompt))
             if min is not None and user_input < min:
-                print(error_message if error_message else f"\nNumber must be {min} or higher")
+                print(
+                    error_message
+                    if error_message
+                    else f"\nNumber must be {min} or higher"
+                )
             elif max is not None and user_input > max:
-                print(error_message if error_message else f"\nNumber must be {max} or lower")
+                print(
+                    error_message
+                    if error_message
+                    else f"\nNumber must be {max} or lower"
+                )
             else:
                 is_valid_input = True
         except ValueError:
@@ -158,21 +173,23 @@ def write_to_file(player_name, character_data, filename):
 def display_character_info(character_data):
     """Displays the character information in a readable format."""
     # fmt: off
-    character_name, character_stats, character_ability_scores = format_character_info(character_data)
-    print(character_name)
+    character_name, character_stats, character_ability_scores, character_spell_slots = format_character_info(character_data)
+    print(f"\n{character_name}")
     print(f"{SMALL_INDENT}Stats: \n{character_stats}")
     print(f"{SMALL_INDENT}Abilities: \n{character_ability_scores}")
+    print(f"{SMALL_INDENT}Spell Slots: \n{character_spell_slots}\n")
     # fmt: on
 
 
 def format_character_info(character_data):
     """Formats character data for display."""
     # fmt: off
-    character_name = f"{LINE_SEPARATOR}\n{SMALL_INDENT}Name: {character_data[0]}\n{LINE_SEPARATOR}"
-    character_stats = f"{LINE_SEPARATOR}\n{MEDIUM_INDENT}Class: {character_data[1][0]} \t Level: {character_data[1][1]} \t HP: {character_data[1][2]}/{character_data[1][3]} \n{SMALL_INDENT}Spell Slots: {character_data[1][4]}/{character_data[1][5]} \t AC: {character_data[1][6]}\n{LINE_SEPARATOR}"
-    character_ability_scores = f"{LINE_SEPARATOR}\n{MEDIUM_INDENT}DEX: {character_data[2][0]} \t CON: {character_data[2][1]}\t CHA: {character_data[2][2]} \n{SMALL_INDENT}WIS: {character_data[2][3]} \t INT: {character_data[2][4]}\t STR: {character_data[2][5]}\n{LINE_SEPARATOR}"
+    character_name = f"{SUBMENU_LINE_SEPARATOR}\n{SMALL_INDENT}Name: {character_data[0]}\n{SUBMENU_LINE_SEPARATOR}"
+    character_stats = f"\n{MEDIUM_INDENT}Class: {character_data[1][0]} \t Level: {character_data[1][1]} \n{MEDIUM_INDENT}HP: {character_data[1][2]}/{character_data[1][3]} \t\t AC: {character_data[1][6]}\n{SUBMENU_LINE_SEPARATOR}"
+    character_ability_scores = f"\n{MEDIUM_INDENT}DEX: {character_data[2][0]} \t CON: {character_data[2][1]}\t CHA: {character_data[2][2]} \n{MEDIUM_INDENT}WIS: {character_data[2][3]} \t INT: {character_data[2][4]}\t STR: {character_data[2][5]}\n{SUBMENU_LINE_SEPARATOR}"
+    character_spell_slots = f"\n{MEDIUM_INDENT}Level 1: {character_data[1][4]}/{character_data[1][5]}{LARGE_INDENT}Level 2: 0/0 \n{MEDIUM_INDENT}Level 3: 0/0{LARGE_INDENT}Level 4: 0/0 \n{MEDIUM_INDENT}Level 5: 0/0{LARGE_INDENT}Level 6: 0/0\n{SUBMENU_LINE_SEPARATOR} "
     # fmt: on
-    return character_name, character_stats, character_ability_scores
+    return character_name, character_stats, character_ability_scores, character_spell_slots
 
 
 def display_players(available_player_characters):

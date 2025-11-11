@@ -1,8 +1,7 @@
-Player Name,Character Name,Class,Level,Current Health,Max Health,Current Spell Slots,Max Spell Slots,Armour,Dexterity,Constitution,Charisma,Wisdom,Intelligence,Strength
+player name,character name,class,level,current health,max health,current spell slots,max spell slots,armour,dexterity,constitution,charisma,wisdom,intelligence,strength
 Nick,Dave the destroyer,fighter,4,10,10,0,0,15,15,14,13,12,11,10
 Maya,Maya Stormsinger,sorcerer,5,22,22,3,3,12,14,10,16,11,13,16
 Leo,Thorn Blackwood,rogue,3,18,18,0,0,13,16,12,10,11,14,15
 Arin,Silverguard,paladin,7,48,48,0,0,18,10,14,15,11,10,14
 Priya,Elderleaf,cleric,6,30,30,2,2,14,10,12,13,16,11,13
 Toren,Stonefist,barbarian,4,38,38,0,0,16,12,15,8,9,17,12
-Pizza Boy,Pizza Boy,Rogue,10,64,64,0,0,13,17,15,15,9,10,10
